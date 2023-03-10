@@ -1,0 +1,49 @@
+.background {
+  background-color: transparent;
+  width: 50%;
+  margin: auto;
+  padding-top: 7rem;
+}
+
+.backgroundContainer {
+  background-image:url(D:\mail-box-client\public\mailImage.jpg);
+  width: 100%;
+  min-height: 100vh;
+  background-size:cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+.formControl {
+  background-color: transparent !important;
+  color: white !important
+}
+.formControl::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(255, 247, 247) !important;
+  opacity: 1; /* Firefox */
+}
+.formControl:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px rgb(246, 28, 64) inset !important;
+  -webkit-text-fill-color: #c3b9b9 !important;
+}
+.formControl:focus {
+  background-color: transparent !important;
+ 
+  box-shadow: 0 0 0 0.25rem rgb(246, 28, 64) !important;
+}
+
+.formLabel {
+  color: white !important;
+}
+.Button{
+  background-color: transparent !important;
+  border: solid  white !important;
+  font-weight: 500 !important;
+
+}
+
+.Button:hover {
+  background-color: white !important;
+  color: rgb(233, 49, 79) !important;
+  
+}
+
