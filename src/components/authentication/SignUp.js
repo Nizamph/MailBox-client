@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import styles from './Auth.module.css';
 import { useNavigate } from 'react-router';
-import React,{ useRef } from 'react';
+import React,{ useRef,useState } from 'react';
 import ErrorModal from '../UI/ErrorModal'
 import { errorModalActions } from '../../Redux-Store/errorModal-slice';
 import { useDispatch,useSelector } from 'react-redux';
@@ -12,8 +12,8 @@ function SignUp() {
   const moveToLoginHandler = () => {
     navigate("/Login")
   }
-  
-  const show = useSelector(state => state.errorModal.show)
+
+
   const errorMessage = useSelector(state => state.errorModal.errorMessage)
 
   const emailInputRef = useRef()
@@ -22,12 +22,14 @@ function SignUp() {
 
   const dispatch = useDispatch()
 
+  const[isLoading,setIsLoading] = useState(false)
+
   const formSubmitHandler = (e) => {
     e.preventDefault()
     const enteredEmail = emailInputRef.current.value
     const enteredPassword = passInputRef.current.value
     const enteredConfirmPassword = confirmPasswordInputRef.current.value
-     
+     setIsLoading(true)
     if(enteredPassword === enteredConfirmPassword) {
       fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDlXgEK5KuClR6s4quTaWEDTD5UVMnx3N8',{
         method:"POST",
@@ -41,6 +43,7 @@ function SignUp() {
           "Content-Type":"application/json"
         }
       }).then((response) => {
+        setIsLoading(false)
         if(response.ok) {
           return response.json()
         }else{
@@ -57,6 +60,7 @@ function SignUp() {
         }
       }).then((res) => {
         console.log(res)
+        navigate("/Login",{replace:true})
       }).catch((err) => {
         console.log(errorMessage)
         dispatch(errorModalActions.errorMessage({message:err.message}))
@@ -85,9 +89,10 @@ function SignUp() {
         <Form.Label className={styles.formLabel}> Confirm Password</Form.Label>
         <Form.Control className={styles.formControl} type="password" placeholder="Confirm Password" ref={confirmPasswordInputRef} />
       </Form.Group>
-      <Button variant="dark" className={styles.Button} type="submit">
+      {!isLoading && <Button variant="dark" className={styles.Button} type="submit">
         Submit
-      </Button>
+      </Button>}
+      {isLoading && <p style={{color:"white"}}>Loading...</p>}
       <div style={{textAlign:"center",marginTop:"1rem"}}>
       <Button onClick={moveToLoginHandler} variant="dark" className={styles.Button} style={{padding:"10px 80px "}} type="submit">
         Have an account? Login
