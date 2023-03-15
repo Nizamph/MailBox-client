@@ -3,8 +3,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import styles from './Auth.module.css'
 import { useNavigate } from 'react-router';
-import { errorModalActions } from '../../Redux-Store/errorModal-slice';
-import { useDispatch} from 'react-redux';
+import { uiActions } from '../../Redux-Store/ui-slice';
+import { useDispatch, useSelector} from 'react-redux';
+import { authAction } from '../../Redux-Store/auth-slice';
+import ErrorModal from '../UI/ErrorModal';
 const Login = () => {
   
   const navigate = useNavigate()
@@ -13,6 +15,9 @@ const Login = () => {
      navigate("/")
   }
 
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+   
+  console.log(isLoggedIn)
   const[enteredEmail,setEnteredEmail] = useState('')
   const[enteredPassword,setEnteredPassword] = useState('')
   const[isLoading,setIsLoading] = useState(false)
@@ -47,9 +52,13 @@ const Login = () => {
       }
     }).then((data) => {
       console.log(data)
+      dispatch(authAction.login({idToken:data.idToken}))
+      
+      dispatch(authAction.authorEmail({email:enteredEmail}))
+      navigate("/Home/compose",{replace:true})
     }).catch((err) => {
-      dispatch(errorModalActions.onShow())
-      dispatch(errorModalActions.errorMessage({message:err.message}))
+      dispatch(uiActions.showToggle())
+      dispatch(uiActions.errorMessage({message:err.message}))
     })
   }
   return (
@@ -74,6 +83,7 @@ const Login = () => {
       </Button>
       </div>
     </Form>
+    <ErrorModal/>
     </div>
   );
 }

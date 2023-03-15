@@ -2,17 +2,17 @@ import React from 'react'
 import styles from './ErrorModal.module.css'
 import { Modal,Button } from 'react-bootstrap';
 import { useSelector,useDispatch } from 'react-redux';
-import { errorModalActions } from '../../Redux-Store/errorModal-slice';
+import { uiActions } from '../../Redux-Store/ui-slice';
 function ErrorModal(props) {
   const dispatch = useDispatch()
-  const errorMessage = useSelector(state => state.errorModal.errorMessage)
-  const onShow = useSelector(state => state.errorModal.show)
+  const errorMessage = useSelector(state => state.ui.errorMessage)
+  const onShow = useSelector(state => state.ui.show)
     
   console.log(onShow)
   console.log(errorMessage)
   console.log('error modal')
   const onCloseHandler = () => {
-     dispatch(errorModalActions.onClose()) 
+     dispatch(uiActions.showToggle()) 
   }
   
   return (

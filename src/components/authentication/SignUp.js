@@ -5,7 +5,7 @@ import styles from './Auth.module.css';
 import { useNavigate } from 'react-router';
 import React,{ useRef,useState } from 'react';
 import ErrorModal from '../UI/ErrorModal'
-import { errorModalActions } from '../../Redux-Store/errorModal-slice';
+import { uiActions } from '../../Redux-Store/ui-slice';
 import { useDispatch,useSelector } from 'react-redux';
 function SignUp() {
   const navigate = useNavigate()
@@ -14,7 +14,7 @@ function SignUp() {
   }
 
 
-  const errorMessage = useSelector(state => state.errorModal.errorMessage)
+  const errorMessage = useSelector(state => state.ui.errorMessage)
 
   const emailInputRef = useRef()
   const passInputRef = useRef()
@@ -63,12 +63,12 @@ function SignUp() {
         navigate("/Login",{replace:true})
       }).catch((err) => {
         console.log(errorMessage)
-        dispatch(errorModalActions.errorMessage({message:err.message}))
-        dispatch(errorModalActions.onShow());
+        dispatch(uiActions.errorMessage({message:err.message}))
+        dispatch(uiActions.onShow());
       })
     }else {
-       dispatch(errorModalActions.onShow());
-       dispatch(errorModalActions.errorMessage({message:"Entered Passwords are not matching"}));
+       dispatch(uiActions.onShow());
+       dispatch(uiActions.errorMessage({message:"Entered Passwords are not matching"}));
     }
 
   }
