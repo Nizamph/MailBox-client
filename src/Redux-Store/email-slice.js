@@ -7,18 +7,9 @@ const emailSlice = createSlice({
     addEmail:(state,action) => {
       state.emailContent = action.payload
     },
-    recipientEmail:(state,action) => {
-       state.recepientEmail = action.payload.recipientEmail
-    },
-    authorEmail:(state, action) => {
-       state.authorEmail = action.payload.authorEmail
-    },
-    replaceRecipientData:(state,action) => {
+    recipientData:(state,action) => {
       state.recipientData = action.payload.recipientContent
     },
-    replaceAuthorData:(state,action) => {
-     state.emailContent = action.payload.authorContent
-    }
   }
 })
 

@@ -4,10 +4,10 @@ import { Route,Routes } from 'react-router-dom'
 import Login from './components/authentication/Login';
 import HomePage from './components/Pages/HomePage';
 import { useSelector,useDispatch } from 'react-redux';
-import Inbox from './components/Email/Inbox';
-import Send from './components/Email/Send';
+import Inbox from './components/Email/Inbox/Inbox';
+import Send from './components/Email/Send/Send';
 import ErrorModal from './components/UI/ErrorModal';
-import { fetchData, sendEmail } from './Redux-Store/email-actions';
+import { fetchRecipient, fetchAuthor } from './Redux-Store/email-actions';
 import {useEffect} from 'react'
 import EmailTextEditor from './components/Email/Email-components/EmailTextEditor';
 function App() {
@@ -20,9 +20,13 @@ function App() {
 
   console.log(isLoggedIn)
   
-  // useEffect(() => {
-  //   dispatch(fetchData(recipientEmail,authorEmail))
-  // },[])
+  useEffect(() => {
+    dispatch(fetchRecipient())
+  },[dispatch])
+
+  useEffect(() => {
+    dispatch(fetchAuthor())
+  },[dispatch])
 
 //  useEffect(() => {
 //   dispatch(sendEmail(emailContent,recipientEmail,authorEmail))
