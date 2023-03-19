@@ -2,12 +2,14 @@
 import { emailActions } from "./email-slice"
 import {  uiActions } from "./ui-slice"
 import axios from "axios"
+import { useSelector } from "react-redux"
 
 let baseUrl = 'https://mailbox-client-51299-default-rtdb.firebaseio.com/'
 
 let loginEmail = localStorage.getItem("authorEmail")
 let authorEmail = loginEmail?.split(".").join("")
-
+  
+  console.log(authorEmail)
 
   export const fetchRecipient = () => {
     return async(dispatch) => {
@@ -21,13 +23,14 @@ let authorEmail = loginEmail?.split(".").join("")
       for(const key in response.data ) {
         loadedRecipientData.push({
           id:key,
-          emailFrom:response.data[key].authorEmail,
+          authorEmail:response.data[key].authorEmail,
           content:response.data[key].emailContent.content,
-          subject:response.data[key].emailContent.subject
+          subject:response.data[key].emailContent.subject,
+          blue:response.data[key].emailContent.blue
         })
       }
 
-      // console.log(loadedRecipientData)
+      console.log(loadedRecipientData)
       dispatch(emailActions.recipientData(loadedRecipientData))  
   
       
@@ -41,9 +44,9 @@ let authorEmail = loginEmail?.split(".").join("")
 
   
   export  const fetchAuthor =  () => {
-     
+         console.log('from fetch Author',authorEmail)
         return async(dispatch) => {
-  
+           console.log('from inside fetchAuthor',authorEmail)
          try {
         const response = await axios.get(`${baseUrl}author/${authorEmail}.json`)
             
@@ -56,7 +59,7 @@ let authorEmail = loginEmail?.split(".").join("")
             id:key,
             toEmail:response.data[key].recipientEmail,
             content:response.data[key].emailContent.content,
-            subject:response.data[key].emailContent.subject
+            subject:response.data[key].emailContent.subject,
           })
         }
 
@@ -71,25 +74,25 @@ let authorEmail = loginEmail?.split(".").join("")
       }
       }
    
-
  
 
 
 
-export const sendEmail = (emailContent,recipientEmail) => {
+export const sendEmail = (emailContent,recipientEmail,currentUserEmail) => {
     console.log(recipientEmail)
 
     let cleanRecipientEmail = recipientEmail.split(".").join("")
+    let cleanCurrentUserEmail = currentUserEmail.split(".").join("")
   return async (dispatch) => {
      const postData = async() => {
       const response = await axios.post(`${baseUrl}recipient/${cleanRecipientEmail}.json`,{
         emailContent:emailContent,
         recipientEmail:recipientEmail,
-        authorEmail:loginEmail
+        authorEmail:currentUserEmail,
        })
        
-
-       await axios.post(`${baseUrl}author/${authorEmail}.json`,{
+      // console.log('from post author',authorEmail)
+       await axios.post(`${baseUrl}author/${cleanCurrentUserEmail}.json`,{
         emailContent:emailContent,
         recipientEmail:recipientEmail,
         authorEmail:loginEmail
@@ -103,6 +106,37 @@ export const sendEmail = (emailContent,recipientEmail) => {
      } catch (error){
       console.log(error)
      }
+  }
+}
+
+export const updateReadInbox = (authorEmail,content,id,currentLoggedEmail) => {
+  console.log('loogedEmail from update',currentLoggedEmail)
+  let cleanCurrentLoggedEmail = currentLoggedEmail.split(".").join("")
+  console.log(cleanCurrentLoggedEmail)
+
+  console.log('this is author email',authorEmail)
+  return async(dispatch) => {
+    try{
+     const  response = await axios.put(`${baseUrl}recipient/${cleanCurrentLoggedEmail}/${id}.json`,{
+      emailContent:content,
+      recipientEmail: cleanCurrentLoggedEmail,
+      authorEmail: authorEmail,
+     })
+     console.log(response.data)
+
+     const data = await response.data
+
+    //  const obj = {
+    //   id: id,
+    //   authorEmail: data.email,
+    //   emailContent: data.emailContent,
+    //   recipientEmail: data.recipientEmail,
+    //   subject: data.subject
+    //  }
+    //  dispatch(emailActions.onRead(obj))
+    }catch(err) {
+     console.log(err)
+    } 
   }
 }
 

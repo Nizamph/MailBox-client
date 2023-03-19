@@ -3,6 +3,7 @@ import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import './Sidebar.css'
 import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import SideNav, {
   Toggle,
   Nav,
@@ -21,13 +22,25 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
     const[isVisible,setIsVisible] = useState(false)
     const location = useLocation()
     const [activeLink,setActiveLink] = useState(location.pathname)
-    console.log(activeLink)
     const handleToggle = () => {
       setIsVisible(!isVisible);
     };
     useEffect(() => {
       setActiveLink(location.pathname);
     }, [location.pathname]);
+
+
+    
+      let recipientData = useSelector(state => state.email.recipientData)
+      let totalUnread = 0
+      recipientData.forEach((item) => {
+         if(item.blue === true) {
+           totalUnread = recipientData.length
+         }
+      })
+
+      console.log(totalUnread)
+
     return (
      <div className="sidebar-container">
       <SideNav expanded={isVisible} onToggle={handleToggle} style={{marginTop:"53px"}}>
@@ -61,7 +74,7 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
            </svg>
            </NavLink>
             </NavIcon>
-            <NavText><NavLink to="/Home/inbox" style={{textDecoration:"none"}} >Inbox</NavLink></NavText>
+            <NavText><NavLink to="/Home/inbox" style={{textDecoration:"none"}} >Inbox   [Unread{totalUnread}]</NavLink></NavText>
           </NavItem>
 
           <NavItem eventKey="send">

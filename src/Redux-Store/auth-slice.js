@@ -23,6 +23,7 @@ const authSlice = createSlice({
     authorEmail: (state,action) => {
       const authorEmail = action.payload.email
       state.authorEmail = authorEmail
+      console.log(state.authorEmail)
       localStorage.setItem('authorEmail',authorEmail)
     }
   }

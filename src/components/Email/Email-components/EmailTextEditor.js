@@ -14,6 +14,7 @@ const EmailTextEditor = () => {
   const statusMessage = useSelector(state => state.ui.statusMessage)
   // const authorEmail = useSelector(state => state.email.authorEmail)
   // const recepientEmail = useSelector(state => state.email.recipientEmail)
+  const currentUserEmail = useSelector(state => state.auth.authorEmail)
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [emailItems, setEmailItems] = useState([])
   const emailInputRef = useRef()
@@ -38,22 +39,29 @@ const EmailTextEditor = () => {
     const emailData = {
       subject: enteredSubject,
       content: text,
-      to:enteredEmail
+      to:enteredEmail,
+      blue:true
     };
     
 
     setEmailItems([...emailItems,emailData])
     
     
+    console.log(emailData)
     
     dispatch(emailActions.addEmail(emailItems))
     // console.log(cleanRecipientEmail) 
     let recipientEmail = enteredEmail 
-    dispatch(sendEmail(emailData,recipientEmail))
-    dispatch(emailActions.recipientEmail({recipientEmail:enteredEmail}))
+
+    
+    dispatch(sendEmail(emailData,recipientEmail,currentUserEmail))
+
     
    
   };
+
+
+  
   
   return (
     <React.Fragment>

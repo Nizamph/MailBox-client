@@ -10,6 +10,8 @@ import ErrorModal from './components/UI/ErrorModal';
 import { fetchRecipient, fetchAuthor } from './Redux-Store/email-actions';
 import {useEffect} from 'react'
 import EmailTextEditor from './components/Email/Email-components/EmailTextEditor';
+import InboxDetails from './components/Email/Inbox/InboxDetails';
+import SendDetails from './components/Email/Send/SendDetails';
 function App() {
   const emailContent = useSelector(state => state.email.emailContent)
   const dispatch = useDispatch()
@@ -21,11 +23,13 @@ function App() {
   console.log(isLoggedIn)
   
   useEffect(() => {
-    dispatch(fetchRecipient())
+      dispatch(fetchRecipient())
   },[dispatch])
 
   useEffect(() => {
-    dispatch(fetchAuthor())
+    
+      dispatch(fetchAuthor())
+
   },[dispatch])
 
 //  useEffect(() => {
@@ -43,6 +47,8 @@ function App() {
         <Route path='send' element={<Send/>}/>
       </Route>
       <Route path='/' element={<SignUp/>}/>
+      <Route path='/inboxdetails/:dataId' element={<InboxDetails/>}/>
+      <Route  path='/sendDetails/:dataId' element={<SendDetails/>}/>
       <Route path='/Login' element={<Login/>}/>
     </Routes>
     </div>
