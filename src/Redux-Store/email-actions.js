@@ -124,19 +124,44 @@ export const updateReadInbox = (authorEmail,content,id,currentLoggedEmail) => {
      })
      console.log(response.data)
 
-     const data = await response.data
 
-    //  const obj = {
-    //   id: id,
-    //   authorEmail: data.email,
-    //   emailContent: data.emailContent,
-    //   recipientEmail: data.recipientEmail,
-    //   subject: data.subject
-    //  }
-    //  dispatch(emailActions.onRead(obj))
     }catch(err) {
      console.log(err)
     } 
+  }
+}
+
+export const DeleteInboxEmail = (id,currentLoggedEmail) => {
+  let cleanCurrentLoggedEmail = currentLoggedEmail.split(".").join("")
+  return async() => {
+    try{
+      const response = await axios.delete(`${baseUrl}recipient/${cleanCurrentLoggedEmail}/${id}.json`)
+
+      if(response === 200) {
+        console.log(response.data)
+      }
+
+            
+    }catch(err){
+      console.log(err)
+    }
+  }
+}
+
+export const DeleteSendBoxEmail = (id,currentLoggedEmail) => {
+  let cleanCurrentLoggedEmail = currentLoggedEmail.split(".").join("")
+  return async() => {
+    try{
+      const response = await axios.delete(`${baseUrl}author/${cleanCurrentLoggedEmail}/${id}.json`)
+
+      if(response === 200) {
+        console.log(response.data)
+      }
+      
+            
+    }catch(err){
+      console.log(err)
+    }
   }
 }
 

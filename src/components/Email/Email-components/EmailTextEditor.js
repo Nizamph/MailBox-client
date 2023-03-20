@@ -1,4 +1,4 @@
-import React, { useState,useRef } from "react";
+import React, { useState,useRef,useEffect } from "react";
 import { EditorState, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -39,17 +39,23 @@ const EmailTextEditor = () => {
     const emailData = {
       subject: enteredSubject,
       content: text,
-      to:enteredEmail,
+      toEmail:enteredEmail,
       blue:true
     };
     
 
-    setEmailItems([...emailItems,emailData])
+    // setEmailItems([...emailItems,emailData])
+
+    setEmailItems((prevState) => {
+      return [...prevState,emailData]
+    })
     
     
     console.log(emailData)
-    
-    dispatch(emailActions.addEmail(emailItems))
+     console.log(emailItems)
+
+  
+   
     // console.log(cleanRecipientEmail) 
     let recipientEmail = enteredEmail 
 
@@ -59,7 +65,12 @@ const EmailTextEditor = () => {
     
    
   };
-
+  
+  useEffect(() => {
+    if(emailItems) {
+      dispatch(emailActions.addEmail(emailItems))
+    }
+   },[dispatch,emailItems])
 
   
   
