@@ -7,7 +7,7 @@ import { emailActions } from '../../../Redux-Store/email-slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
-import { DeleteInboxEmail, updateReadInbox } from '../../../Redux-Store/email-actions'
+import { DeleteInboxEmail, updateRead } from '../../../Redux-Store/email-actions'
 const InboxItems = (props) => {
   const dispatch = useDispatch()
   const recipientData = useSelector(state => state.email.recipientData)
@@ -24,10 +24,11 @@ const InboxItems = (props) => {
       content:item.content,
       blue:false,
     }
-
+    
+      let recipient = 'recipient'
   
       if(item.id === props.id) {
-        dispatch(updateReadInbox( item.authorEmail,emailContent,item.id,currentLoggedEmail))
+        dispatch(updateRead( item.authorEmail,emailContent,item.id,currentLoggedEmail,recipient))
         return {...item,blue:false}
         
       }

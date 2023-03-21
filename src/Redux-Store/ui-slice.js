@@ -11,11 +11,14 @@ const uiSlice = createSlice({
       const errorMessage = action.payload.message
       state.errorMessage = errorMessage
     },
-    statusNotification:(state) => {
+    statusNotificationShow:(state) => {
+      console.log('status notification running')
       state.showStatus = !state.showStatus
+      console.log(state.showStatus)
     },
     statusMessage:(state,action) => {
       state.statusMessage = action.payload.statusMessage
+      console.log("status message is here ",state.statusMessage)
     }
   }
 

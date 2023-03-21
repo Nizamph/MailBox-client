@@ -2,7 +2,7 @@
 import { emailActions } from "./email-slice"
 import {  uiActions } from "./ui-slice"
 import axios from "axios"
-import { useSelector } from "react-redux"
+
 
 let baseUrl = 'https://mailbox-client-51299-default-rtdb.firebaseio.com/'
 
@@ -13,7 +13,7 @@ let authorEmail = loginEmail?.split(".").join("")
 
   export const fetchRecipient = () => {
     return async(dispatch) => {
-     
+       
         try {
       const response = await axios.get(`${baseUrl}recipient/${authorEmail}.json`)
          console.log(authorEmail)
@@ -42,7 +42,6 @@ let authorEmail = loginEmail?.split(".").join("")
   }
   }
 
-  
   export  const fetchAuthor =  () => {
          console.log('from fetch Author',authorEmail)
         return async(dispatch) => {
@@ -60,6 +59,7 @@ let authorEmail = loginEmail?.split(".").join("")
             toEmail:response.data[key].recipientEmail,
             content:response.data[key].emailContent.content,
             subject:response.data[key].emailContent.subject,
+            blue:response.data[key].emailContent.blue
           })
         }
 
@@ -80,11 +80,14 @@ let authorEmail = loginEmail?.split(".").join("")
 
 export const sendEmail = (emailContent,recipientEmail,currentUserEmail) => {
     console.log(recipientEmail)
-
     let cleanRecipientEmail = recipientEmail.split(".").join("")
     let cleanCurrentUserEmail = currentUserEmail.split(".").join("")
   return async (dispatch) => {
+    
+    dispatch(uiActions.statusNotificationShow())
+    dispatch(uiActions.statusMessage({statusMessage:"Mail is sending "}))
      const postData = async() => {
+      
       const response = await axios.post(`${baseUrl}recipient/${cleanRecipientEmail}.json`,{
         emailContent:emailContent,
         recipientEmail:recipientEmail,
@@ -103,13 +106,27 @@ export const sendEmail = (emailContent,recipientEmail,currentUserEmail) => {
      }
      try {
       await postData()
+      dispatch(uiActions.statusMessage({statusMessage:"Successfully send"}))
+
+      setTimeout(() => {
+       dispatch(uiActions.statusMessage({statusMessage:""}))
+       dispatch(uiActions.statusNotificationShow())
+      },2000)
+
+        
+        
+       
+     
+      await postData()
      } catch (error){
       console.log(error)
+      dispatch(uiActions.showToggle())
+      dispatch(uiActions.errorMessage({message:"OOPSSS!!! Failed to send the email"}))
      }
   }
 }
 
-export const updateReadInbox = (authorEmail,content,id,currentLoggedEmail) => {
+export const updateRead = (authorEmail,content,id,currentLoggedEmail,requestTo) => {
   console.log('loogedEmail from update',currentLoggedEmail)
   let cleanCurrentLoggedEmail = currentLoggedEmail.split(".").join("")
   console.log(cleanCurrentLoggedEmail)
@@ -117,7 +134,7 @@ export const updateReadInbox = (authorEmail,content,id,currentLoggedEmail) => {
   console.log('this is author email',authorEmail)
   return async(dispatch) => {
     try{
-     const  response = await axios.put(`${baseUrl}recipient/${cleanCurrentLoggedEmail}/${id}.json`,{
+     const  response = await axios.put(`${baseUrl}${requestTo}/${cleanCurrentLoggedEmail}/${id}.json`,{
       emailContent:content,
       recipientEmail: cleanCurrentLoggedEmail,
       authorEmail: authorEmail,
@@ -130,6 +147,7 @@ export const updateReadInbox = (authorEmail,content,id,currentLoggedEmail) => {
     } 
   }
 }
+
 
 export const DeleteInboxEmail = (id,currentLoggedEmail) => {
   let cleanCurrentLoggedEmail = currentLoggedEmail.split(".").join("")

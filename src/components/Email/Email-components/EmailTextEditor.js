@@ -6,7 +6,7 @@ import "./EmailTextEditor.css";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { emailActions } from "../../../Redux-Store/email-slice";
-import { useSelector } from "react-redux";
+import { useSelector} from "react-redux";
 import Notification from "../../UI/Notification";
 import { sendEmail } from "../../../Redux-Store/email-actions";
 const EmailTextEditor = () => {
@@ -20,14 +20,17 @@ const EmailTextEditor = () => {
   const emailInputRef = useRef()
   const subjectInputRef = useRef()
   const dispatch = useDispatch()
+  console.log("show status is here",showStatus)  
   const onEditorStateChange = (newEditorState) => {
     setEditorState(newEditorState);
   };
+
 
   const formSubmitHandler = (e) => {
     e.preventDefault()
     const contentState = editorState.getCurrentContent();  
     const EmailContent = convertToRaw(contentState)
+
 
     const enteredEmail = emailInputRef.current.value;
     const enteredSubject = subjectInputRef.current.value;
@@ -72,12 +75,12 @@ const EmailTextEditor = () => {
     }
    },[dispatch,emailItems])
 
-  
-  
+
   return (
     <React.Fragment>
     <div className="email-composer">
     <Form className="email-container" onSubmit={formSubmitHandler}>
+    <h4 style={{color:"rgb(233, 49, 79)",backgroundColor:"transparent",marginLeft:"3rem"}}>Compose Your Mail...</h4>
     <div className="email-text-editor-container">
       <div className="email-text-editor-field">
         <label htmlFor="to">To:</label>
@@ -101,7 +104,9 @@ const EmailTextEditor = () => {
     </div>
     <div style={{textAlign:"end"}}>
     {!showStatus && <Button className="Button-send" style={{marginRight:"38px",marginTop:"14px"}} type="submit">Send</Button>}
-    {showStatus && <Notification message={statusMessage}/>}
+       {showStatus && <Notification message={statusMessage}/>}
+   
+  
     </div>
     </Form>
     </div>

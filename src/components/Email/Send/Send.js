@@ -16,6 +16,7 @@ const Send = () => {
            emailTo={item.toEmail}
            content={item.content}
            subject={item.subject}
+           blue={item.blue}
           />
         ))
       }
