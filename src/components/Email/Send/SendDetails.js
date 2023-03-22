@@ -11,11 +11,12 @@ const SendDetails = () => {
 const sendBoxEmails = useSelector(state => state.email.emailContent)
 
 
-useEffect(() => {
- dispatch(fetchAuthor())
-},[dispatch])
+
+// useEffect(() => {
+//  dispatch(fetchAuthor())
+// },[dispatch])
    
-  console.log(sendBoxEmails)
+  console.log('send box mail',sendBoxEmails)
 
   useEffect(() => {
     const selectedEmail = sendBoxEmails.find((item) => item.id === dataId)
@@ -25,6 +26,7 @@ useEffect(() => {
     }
   },[dataId,sendBoxEmails])
 
+  console.log('selected send',selectedItem)
 
   return (
     <React.Fragment>

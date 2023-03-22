@@ -11,7 +11,7 @@ const uiSlice = createSlice({
       const errorMessage = action.payload.message
       state.errorMessage = errorMessage
     },
-    statusNotificationShow:(state) => {
+    statusNotificationToggle:(state) => {
       console.log('status notification running')
       state.showStatus = !state.showStatus
       console.log(state.showStatus)

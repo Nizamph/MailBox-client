@@ -13,7 +13,7 @@ const emailSlice = createSlice({
     recipientData:(state,action) => {
       state.recipientData = action.payload
 
-      console.log('data from recipient',state.recipientData)
+      console.log('recipient data from email-slice',state.recipientData)
     },
     readStatus:(state,action) => {
       state.recipientData = action.payload.blue

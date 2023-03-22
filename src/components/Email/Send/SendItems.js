@@ -3,13 +3,14 @@ import { Container,Col,Row } from 'react-bootstrap'
 import styles from '../EmailItems.module.css'
 import { Link } from 'react-router-dom'
 import { useSelector,useDispatch } from 'react-redux'
-import { DeleteSendBoxEmail, updateRead } from '../../../Redux-Store/email-actions'
+import { DeleteSendBoxEmail, fetchAuthor, updateRead } from '../../../Redux-Store/email-actions'
 import { emailActions } from '../../../Redux-Store/email-slice'
 
 const SendItems = (props) => {
 
   const sendBoxItems = useSelector(state => state.email.emailContent)
   const currentLoggedEmail = useSelector(state => state.auth.authorEmail)
+  const cleanLoggedInEmail = currentLoggedEmail.split(".").join("")
   const dispatch = useDispatch()
   console.log('items from send box',sendBoxItems)
 
@@ -28,7 +29,7 @@ const SendItems = (props) => {
       if(props.id === item.id) {
         dispatch(updateRead(item.toEmail,emailContent,item.id,currentLoggedEmail,author))
         return{...item,blue:false}
-
+        
       }
       return item;
      })
@@ -43,22 +44,26 @@ const SendItems = (props) => {
   
     dispatch(emailActions.addEmail(afterDelete))
    dispatch(DeleteSendBoxEmail(props.id,currentLoggedEmail))
+
+  
   }
 
+
+  
 
   return (
         <div>
       
-        <Container className='lg-12 md-6 p-2 border border-dark mb-2'>
+        <Container className='lg-12 md-6 p-2 border border-dark mb-2 d-flex'>
         <button onClick={onClickHandler} className={styles.emailSelector}>
           <div className={styles.flux}>
           
           <div className={props.blue?styles.readStatus:''}>
           </div>
           <div>
-          <Link to={`/inboxdetails/${props.id}`} className="d-flex">  
-        <p style={{marginLeft:"9rem",marginRight:"9rem",marginTop:"10px"}}>From: {props.emailTo}</p>
-        <p style={{marginLeft:"9rem",marginRight:"9rem",marginTop:"10px"}}>Subject: {props.subject}</p>
+          <Link to={`/sendDetails/${props.id}`} className="d-flex">  
+        <p style={{marginLeft:"9rem",marginRight:"9rem",marginTop:"10px"}}>From: <br/>{props.emailTo}</p>
+        <p style={{marginLeft:"9rem",marginRight:"9rem",marginTop:"10px"}}>Subject: <br/>{props.subject}</p>
         </Link> 
           </div>
           </div>

@@ -16,7 +16,6 @@ const EmailTextEditor = () => {
   // const recepientEmail = useSelector(state => state.email.recipientEmail)
   const currentUserEmail = useSelector(state => state.auth.authorEmail)
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const [emailItems, setEmailItems] = useState([])
   const emailInputRef = useRef()
   const subjectInputRef = useRef()
   const dispatch = useDispatch()
@@ -49,13 +48,11 @@ const EmailTextEditor = () => {
 
     // setEmailItems([...emailItems,emailData])
 
-    setEmailItems((prevState) => {
-      return [...prevState,emailData]
-    })
+
     
     
     console.log(emailData)
-     console.log(emailItems)
+ 
 
   
    
@@ -69,11 +66,7 @@ const EmailTextEditor = () => {
    
   };
   
-  useEffect(() => {
-    if(emailItems) {
-      dispatch(emailActions.addEmail(emailItems))
-    }
-   },[dispatch,emailItems])
+
 
 
   return (

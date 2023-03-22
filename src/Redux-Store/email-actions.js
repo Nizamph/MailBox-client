@@ -6,67 +6,77 @@ import axios from "axios"
 
 let baseUrl = 'https://mailbox-client-51299-default-rtdb.firebaseio.com/'
 
-let loginEmail = localStorage.getItem("authorEmail")
-let authorEmail = loginEmail?.split(".").join("")
+// let loginEmail = localStorage.getItem("authorEmail")
+// let authorEmail = loginEmail?.split(".").join("")
   
-  console.log(authorEmail)
 
-  export const fetchRecipient = () => {
+
+  export const fetchRecipient = (authorEmail) => {
     return async(dispatch) => {
-       
-        try {
-      const response = await axios.get(`${baseUrl}recipient/${authorEmail}.json`)
-         console.log(authorEmail)
+        
+      const fetchAllRecipientMails = async() => {
+        console.log('author email from recipient',authorEmail)
+        console.log("fecthing recipient from email action")
+        const response = await axios.get(`${baseUrl}recipient/${authorEmail}.json`)
+        // console.log(authorEmail)
 
-      console.log(response.data)
-      let loadedRecipientData = []
-      for(const key in response.data ) {
-        loadedRecipientData.push({
-          id:key,
-          authorEmail:response.data[key].authorEmail,
-          content:response.data[key].emailContent.content,
-          subject:response.data[key].emailContent.subject,
-          blue:response.data[key].emailContent.blue
-        })
+     console.log('after fetching recipient data is here',response.data)
+     let loadedRecipientData = []
+     for(const key in response.data ) {
+       loadedRecipientData.push({
+         id:key,
+         authorEmail:response.data[key].authorEmail,
+         content:response.data[key].emailContent.content,
+         subject:response.data[key].emailContent.subject,
+         blue:response.data[key].emailContent.blue
+       })
+     }
+
+     console.log('recipient array is here',loadedRecipientData)
+     dispatch(emailActions.recipientData(loadedRecipientData))  
       }
+        try {
 
-      console.log(loadedRecipientData)
-      dispatch(emailActions.recipientData(loadedRecipientData))  
-  
+      await fetchAllRecipientMails()
       
     }catch(error) {
-      // dispatch(uiActions.errorMessage({message:error.message}))
+      dispatch(uiActions.errorMessage({message:error.message}))
       console.log(error)
       console.log('error from the fetching of recipient')
     }
   }
   }
 
-  export  const fetchAuthor =  () => {
-         console.log('from fetch Author',authorEmail)
+  export  const fetchAuthor =  (authorEmail) => {
+   
         return async(dispatch) => {
-           console.log('from inside fetchAuthor',authorEmail)
-         try {
-        const response = await axios.get(`${baseUrl}author/${authorEmail}.json`)
+
+          const fetchAllAuthorMails = async() => {
+            const response = await axios.get(`${baseUrl}author/${authorEmail}.json`)
             
 
   
-        console.log(response.data)
-        let loadedAuthorData = []
-        for(const key in response.data ) {
-          loadedAuthorData.push({
-            id:key,
-            toEmail:response.data[key].recipientEmail,
-            content:response.data[key].emailContent.content,
-            subject:response.data[key].emailContent.subject,
-            blue:response.data[key].emailContent.blue
-          })
-        }
+            console.log(response.data)
+            let loadedAuthorData = []
+            for(const key in response.data ) {
+              loadedAuthorData.push({
+                id:key,
+                toEmail:response.data[key].recipientEmail,
+                content:response.data[key].emailContent.content,
+                subject:response.data[key].emailContent.subject,
+                blue:response.data[key].emailContent.blue
+              })
+            }
+    
+            console.log(loadedAuthorData)
+            dispatch(emailActions.addEmail(loadedAuthorData)) 
+          }
+         try {
 
-        console.log(loadedAuthorData)
-        dispatch(emailActions.addEmail(loadedAuthorData))     
+          await fetchAllAuthorMails()
+     
       }catch(error) {
-        // dispatch(uiActions.errorMessage({message:error.message}))
+        dispatch(uiActions.errorMessage({message:error.message}))
         console.log(error)
         console.log('error from the fetching of author')   
 
@@ -84,7 +94,7 @@ export const sendEmail = (emailContent,recipientEmail,currentUserEmail) => {
     let cleanCurrentUserEmail = currentUserEmail.split(".").join("")
   return async (dispatch) => {
     
-    dispatch(uiActions.statusNotificationShow())
+    dispatch(uiActions.statusNotificationToggle())
     dispatch(uiActions.statusMessage({statusMessage:"Mail is sending "}))
      const postData = async() => {
       
@@ -98,7 +108,7 @@ export const sendEmail = (emailContent,recipientEmail,currentUserEmail) => {
        await axios.post(`${baseUrl}author/${cleanCurrentUserEmail}.json`,{
         emailContent:emailContent,
         recipientEmail:recipientEmail,
-        authorEmail:loginEmail
+        authorEmail:currentUserEmail
        })
 
        console.log(response.data)
@@ -106,21 +116,19 @@ export const sendEmail = (emailContent,recipientEmail,currentUserEmail) => {
      }
      try {
       await postData()
+  
       dispatch(uiActions.statusMessage({statusMessage:"Successfully send"}))
 
       setTimeout(() => {
        dispatch(uiActions.statusMessage({statusMessage:""}))
-       dispatch(uiActions.statusNotificationShow())
+       dispatch(uiActions.statusNotificationToggle())
       },2000)
 
         
-        
-       
-     
-      await postData()
      } catch (error){
       console.log(error)
       dispatch(uiActions.showToggle())
+      dispatch(uiActions.statusNotificationToggle())
       dispatch(uiActions.errorMessage({message:"OOPSSS!!! Failed to send the email"}))
      }
   }

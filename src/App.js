@@ -18,19 +18,29 @@ function App() {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   const showErrorModal = useSelector(state => state.ui.show)
   const recipientEmail = useSelector(state => state.email.recepientEmail)
-  const authorEmail = useSelector(state => state.auth.authorEmail)
+  const loggedInEmail = useSelector(state => state.auth.authorEmail)
 
   console.log(isLoggedIn)
+   const authorEmail = loggedInEmail?.split(".").join("")
+   
+  useEffect(() => {
+    // const interval = setInterval(() => {
+      console.log('author email from app.js',authorEmail)
+      dispatch(fetchRecipient(authorEmail));
+      console.log("fetching recipient")
+    // }, 2000);
+    // return () => clearInterval(interval);
+  }, []);
   
   useEffect(() => {
-      dispatch(fetchRecipient())
-  },[dispatch])
+    // const interval = setInterval(() => {
+      console.log("author fetching")
+      dispatch(fetchAuthor(authorEmail));
+    // }, 2000);
+    // return () => clearInterval(interval);
+  }, []);
 
-  useEffect(() => {
-    
-      dispatch(fetchAuthor())
-
-  },[dispatch])
+  
 
 //  useEffect(() => {
 //   dispatch(sendEmail(emailContent,recipientEmail,authorEmail))

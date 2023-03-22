@@ -19,7 +19,7 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
 
   
   const Sidebar = () => {
-    const[isVisible,setIsVisible] = useState(false)
+    const[isVisible,setIsVisible] = useState(true)
     const location = useLocation()
     const [activeLink,setActiveLink] = useState(location.pathname)
     const handleToggle = () => {
@@ -33,11 +33,14 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
     
       let recipientData = useSelector(state => state.email.recipientData)
       let totalUnread = 0
-      recipientData.forEach((item) => {
-         if(item.blue === true) {
-           totalUnread = recipientData.length
-         }
-      })
+    
+        recipientData.forEach((item) => {
+          if(item.blue === true) {
+            totalUnread = recipientData.length
+          }
+       })
+     
+  
 
       console.log(totalUnread)
 

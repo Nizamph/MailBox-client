@@ -14,12 +14,12 @@ const InboxDetails = () => {
   const[selectedEmail,setSelectedEmail] = useState([])
   const inboxDetails = useSelector(state =>state.email.recipientData)
 
-  useEffect(() => {
-    dispatch(fetchRecipient())
-   },[dispatch])
+  // useEffect(() => {
+  //   dispatch(fetchRecipient())
+  //  },[dispatch])
 
 
-   console.log(inboxDetails)
+   console.log('recipient data from inbox details',inboxDetails)
 
    useEffect(() => {
     const selectedItem = inboxDetails.find((emailItem) => emailItem.id === dataId)

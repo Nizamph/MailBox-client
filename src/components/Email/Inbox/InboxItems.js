@@ -12,7 +12,7 @@ const InboxItems = (props) => {
   const dispatch = useDispatch()
   const recipientData = useSelector(state => state.email.recipientData)
   const currentLoggedEmail = useSelector(state => state.auth.authorEmail)
-  console.log(recipientData)
+  console.log('recipient data from inbox items',recipientData)
   console.log('email from inbox',currentLoggedEmail)
   
   const onClickHandler = (e) => {
@@ -55,7 +55,7 @@ const InboxItems = (props) => {
   return (
     <div>
       
-    <Container className='lg-12 md-6 p-2 border border-dark mb-2'>
+    <Container className='lg-12 md-6 p-2 border border-dark mb-2 d-flex'>
     <button onClick={onClickHandler} className={styles.emailSelector}>
       <div className={styles.flux}>
       
@@ -63,8 +63,8 @@ const InboxItems = (props) => {
       </div>
       <div>
       <Link to={`/inboxdetails/${props.id}`} className="d-flex">  
-    <p style={{marginLeft:"9rem",marginRight:"9rem",marginTop:"10px"}}>From: {props.emailFrom}</p>
-    <p style={{marginLeft:"9rem",marginRight:"9rem",marginTop:"10px"}}>Subject: {props.subject}</p>
+    <p style={{marginLeft:"9rem",marginRight:"9rem",marginTop:"10px"}}>From: <br/> {props.emailFrom}</p>
+    <p style={{marginLeft:"9rem",marginRight:"9rem",marginTop:"10px"}}>Subject: <br/> {props.subject}</p>
     </Link> 
       </div>
       </div>
