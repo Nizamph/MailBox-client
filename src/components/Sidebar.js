@@ -30,19 +30,22 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
     }, [location.pathname]);
 
 
-    
+        
       let recipientData = useSelector(state => state.email.recipientData)
+      console.log('recipient data from sidebar',recipientData)
       let totalUnread = 0
     
         recipientData.forEach((item) => {
           if(item.blue === true) {
-            totalUnread = recipientData.length
+            totalUnread =  totalUnread + 1
           }
        })
+  
+      
      
   
 
-      console.log(totalUnread)
+      console.log('this is total unread',totalUnread)
 
     return (
      <div className="sidebar-container">
@@ -66,7 +69,7 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
             </svg>
            </NavLink>
             </NavIcon>
-            <NavText><NavLink to="/Home" style={{textDecoration:"none"}} >Compose</NavLink></NavText>
+            <NavText><NavLink to="/Home/compose" style={{textDecoration:"none"}} >Compose</NavLink></NavText>
           </NavItem>
 
           <NavItem  eventKey="inbox">

@@ -9,6 +9,7 @@ import { emailActions } from "../../../Redux-Store/email-slice";
 import { useSelector} from "react-redux";
 import Notification from "../../UI/Notification";
 import { sendEmail } from "../../../Redux-Store/email-actions";
+
 const EmailTextEditor = () => {
   const showStatus = useSelector(state => state.ui.showStatus)
   const statusMessage = useSelector(state => state.ui.statusMessage)
@@ -44,26 +45,16 @@ const EmailTextEditor = () => {
       toEmail:enteredEmail,
       blue:true
     };
-    
-
-    // setEmailItems([...emailItems,emailData])
-
-
-    
-    
-    console.log(emailData)
- 
-
   
+    // setEmailItems([...emailItems,emailData])
+    console.log(emailData)
    
     // console.log(cleanRecipientEmail) 
-    let recipientEmail = enteredEmail 
+    let recipientEmail = enteredEmail
+  
 
-    
-    dispatch(sendEmail(emailData,recipientEmail,currentUserEmail))
-
-    
-   
+    // useSend(emailData,recipientEmail,currentUserEmail)
+    dispatch(sendEmail(emailData,recipientEmail,currentUserEmail)) 
   };
   
 

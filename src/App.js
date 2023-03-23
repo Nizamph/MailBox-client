@@ -1,17 +1,17 @@
 import SignUp from './components/authentication/SignUp';
 import Header from './components/Header';
-import { Route,Routes } from 'react-router-dom'
+import { Route,Routes,Navigate } from 'react-router-dom'
 import Login from './components/authentication/Login';
 import HomePage from './components/Pages/HomePage';
 import { useSelector,useDispatch } from 'react-redux';
 import Inbox from './components/Email/Inbox/Inbox';
 import Send from './components/Email/Send/Send';
 import ErrorModal from './components/UI/ErrorModal';
-import { fetchRecipient, fetchAuthor } from './Redux-Store/email-actions';
 import {useEffect} from 'react'
 import EmailTextEditor from './components/Email/Email-components/EmailTextEditor';
 import InboxDetails from './components/Email/Inbox/InboxDetails';
 import SendDetails from './components/Email/Send/SendDetails';
+import useFetch from './hooks/useFetch';
 function App() {
   const emailContent = useSelector(state => state.email.emailContent)
   const dispatch = useDispatch()
@@ -22,24 +22,28 @@ function App() {
 
   console.log(isLoggedIn)
    const authorEmail = loggedInEmail?.split(".").join("")
-   
-  useEffect(() => {
-    // const interval = setInterval(() => {
-      console.log('author email from app.js',authorEmail)
-      dispatch(fetchRecipient(authorEmail));
-      console.log("fetching recipient")
-    // }, 2000);
-    // return () => clearInterval(interval);
-  }, []);
+   const recipient = 'recipient'
+  // useEffect(() => {
+  //   // const interval = setInterval(() => {
+  //     console.log('author email from app.js',authorEmail)
+  //     dispatch(useFetch(authorEmail,userType));
+  //     console.log("fetching recipient")
+  //   // }, 2000);
+  //   // return () => clearInterval(interval);
+  // }, []);
   
-  useEffect(() => {
-    // const interval = setInterval(() => {
-      console.log("author fetching")
-      dispatch(fetchAuthor(authorEmail));
-    // }, 2000);
-    // return () => clearInterval(interval);
-  }, []);
+  useFetch(authorEmail,recipient)
 
+  const author = 'author'
+  // useEffect(() => {
+  //   // const interval = setInterval(() => {
+  //     console.log("author fetching")
+  //     dispatch(useFetch(authorEmail,fetchAuthor));
+  //   // }, 2000);
+  //   // return () => clearInterval(interval);
+  // }, []);
+
+  useFetch(authorEmail,author)
   
 
 //  useEffect(() => {
@@ -52,14 +56,18 @@ function App() {
      {showErrorModal && <ErrorModal message={showErrorModal.errorMessage} />}
     <Routes>
       <Route path='/Home' element={<HomePage/>}>
-        <Route path='compose' element={<EmailTextEditor/>}/>
-        <Route path='inbox' element={<Inbox/>}/>
-        <Route path='send' element={<Send/>}/>
+       {isLoggedIn && <Route path='compose' element={<EmailTextEditor/>}/>}
+       {!isLoggedIn && <Route path='compose' element={<Navigate replace to="/Login"/>}/>}
+       {isLoggedIn &&  <Route path='inbox' element={<Inbox/>}/>}
+       {!isLoggedIn &&  <Route path='inbox' element={<Navigate replace to="/Login"/>}/>}
+       {isLoggedIn && <Route path='send' element={<Send/>}/>}
+       {!isLoggedIn && <Route path='send' element={<Navigate replace to="/Login"/>}/>}
       </Route>
-      <Route path='/' element={<SignUp/>}/>
-      <Route path='/inboxdetails/:dataId' element={<InboxDetails/>}/>
-      <Route  path='/sendDetails/:dataId' element={<SendDetails/>}/>
-      <Route path='/Login' element={<Login/>}/>
+      {!isLoggedIn && <Route path='/signUp' element={<SignUp/>}/>}
+      {!isLoggedIn && <Route path='/Login' element={<Login/>}/>}
+      {isLoggedIn && <Route path='/inboxdetails/:dataId' element={<InboxDetails/>}/>}
+      {isLoggedIn && <Route  path='/sendDetails/:dataId' element={<SendDetails/>}/>}
+      <Route path='*' element={<Navigate replace to="/Home"/>}/>
     </Routes>
     </div>
   );

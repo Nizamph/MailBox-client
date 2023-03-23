@@ -3,7 +3,7 @@ import { Container,Col,Row } from 'react-bootstrap'
 import styles from '../EmailItems.module.css'
 import { Link } from 'react-router-dom'
 import { useSelector,useDispatch } from 'react-redux'
-import { DeleteSendBoxEmail, fetchAuthor, updateRead } from '../../../Redux-Store/email-actions'
+import { DeleteEmail, fetchAuthor, updateRead } from '../../../Redux-Store/email-actions'
 import { emailActions } from '../../../Redux-Store/email-slice'
 
 const SendItems = (props) => {
@@ -43,7 +43,9 @@ const SendItems = (props) => {
     console.log('send box items',afterDelete)
   
     dispatch(emailActions.addEmail(afterDelete))
-   dispatch(DeleteSendBoxEmail(props.id,currentLoggedEmail))
+
+    let author = 'author'
+   dispatch(DeleteEmail(props.id,currentLoggedEmail,author))
 
   
   }

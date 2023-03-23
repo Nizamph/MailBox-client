@@ -11,78 +11,78 @@ let baseUrl = 'https://mailbox-client-51299-default-rtdb.firebaseio.com/'
   
 
 
-  export const fetchRecipient = (authorEmail) => {
-    return async(dispatch) => {
+  // export const fetchRecipient = (authorEmail) => {
+  //   return async(dispatch) => {
         
-      const fetchAllRecipientMails = async() => {
-        console.log('author email from recipient',authorEmail)
-        console.log("fecthing recipient from email action")
-        const response = await axios.get(`${baseUrl}recipient/${authorEmail}.json`)
-        // console.log(authorEmail)
+  //     const fetchAllRecipientMails = async() => {
+  //       console.log('author email from recipient',authorEmail)
+  //       console.log("fecthing recipient from email action")
+  //       const response = await axios.get(`${baseUrl}recipient/${authorEmail}.json`)
+  //       // console.log(authorEmail)
 
-     console.log('after fetching recipient data is here',response.data)
-     let loadedRecipientData = []
-     for(const key in response.data ) {
-       loadedRecipientData.push({
-         id:key,
-         authorEmail:response.data[key].authorEmail,
-         content:response.data[key].emailContent.content,
-         subject:response.data[key].emailContent.subject,
-         blue:response.data[key].emailContent.blue
-       })
-     }
+  //    console.log('after fetching recipient data is here',response.data)
+  //    let loadedRecipientData = []
+  //    for(const key in response.data ) {
+  //      loadedRecipientData.push({
+  //        id:key,
+  //        authorEmail:response.data[key].authorEmail,
+  //        content:response.data[key].emailContent.content,
+  //        subject:response.data[key].emailContent.subject,
+  //        blue:response.data[key].emailContent.blue
+  //      })
+  //    }
 
-     console.log('recipient array is here',loadedRecipientData)
-     dispatch(emailActions.recipientData(loadedRecipientData))  
-      }
-        try {
+  //    console.log('recipient array is here',loadedRecipientData)
+  //    dispatch(emailActions.recipientData(loadedRecipientData))  
+  //     }
+  //       try {
 
-      await fetchAllRecipientMails()
+  //     await fetchAllRecipientMails()
       
-    }catch(error) {
-      dispatch(uiActions.errorMessage({message:error.message}))
-      console.log(error)
-      console.log('error from the fetching of recipient')
-    }
-  }
-  }
+  //   }catch(error) {
+  //     dispatch(uiActions.errorMessage({message:error.message}))
+  //     console.log(error)
+  //     console.log('error from the fetching of recipient')
+  //   }
+  // }
+  // }
 
-  export  const fetchAuthor =  (authorEmail) => {
+  // export  const fetchAuthor =  (authorEmail) => {
    
-        return async(dispatch) => {
+  //       return async(dispatch) => {
 
-          const fetchAllAuthorMails = async() => {
-            const response = await axios.get(`${baseUrl}author/${authorEmail}.json`)
+  //         const fetchAllAuthorMails = async() => {
+  //           const response = await axios.get(`${baseUrl}author/${authorEmail}.json`)
             
 
   
-            console.log(response.data)
-            let loadedAuthorData = []
-            for(const key in response.data ) {
-              loadedAuthorData.push({
-                id:key,
-                toEmail:response.data[key].recipientEmail,
-                content:response.data[key].emailContent.content,
-                subject:response.data[key].emailContent.subject,
-                blue:response.data[key].emailContent.blue
-              })
-            }
+  //           console.log(response.data)
+  //           let loadedAuthorData = []
+  //           for(const key in response.data ) {
+  //             loadedAuthorData.push({
+  //               id:key,
+  //               toEmail:response.data[key].recipientEmail,
+  //               content:response.data[key].emailContent.content,
+  //               subject:response.data[key].emailContent.subject,
+  //               blue:response.data[key].emailContent.blue
+  //             })
+  //           }
     
-            console.log(loadedAuthorData)
-            dispatch(emailActions.addEmail(loadedAuthorData)) 
-          }
-         try {
+  //           console.log(loadedAuthorData)
+  //           dispatch(emailActions.addEmail(loadedAuthorData)) 
+  //         }
+  //        try {
 
-          await fetchAllAuthorMails()
+  //         await fetchAllAuthorMails()
      
-      }catch(error) {
-        dispatch(uiActions.errorMessage({message:error.message}))
-        console.log(error)
-        console.log('error from the fetching of author')   
+  //     }catch(error) {
+  //       dispatch(uiActions.errorMessage({message:error.message}))
+  //       console.log(error)
+  //       console.log('error from the fetching of author')   
 
-      }
-      }
-      }
+  //     }
+  //     }
+  //     }
    
  
 
@@ -157,38 +157,44 @@ export const updateRead = (authorEmail,content,id,currentLoggedEmail,requestTo) 
 }
 
 
-export const DeleteInboxEmail = (id,currentLoggedEmail) => {
+export const DeleteEmail = (id,currentLoggedEmail,userType) => {
   let cleanCurrentLoggedEmail = currentLoggedEmail.split(".").join("")
-  return async() => {
-    try{
-      const response = await axios.delete(`${baseUrl}recipient/${cleanCurrentLoggedEmail}/${id}.json`)
+  return async(dispatch) => {
+    const DeleteSelectedMail = async() => {
+      const response = await axios.delete(`${baseUrl}${userType}/${cleanCurrentLoggedEmail}/${id}.json`)
 
-      if(response === 200) {
+   
         console.log(response.data)
-      }
 
-            
+    }
+      try{   
+        
+      await  DeleteSelectedMail()
+      
     }catch(err){
       console.log(err)
+      dispatch(uiActions.showToggle())
+      dispatch(uiActions.statusNotificationToggle())
+      dispatch(uiActions.errorMessage({message:"OOPSSS!!! Failed to Delete the email"}))
     }
   }
 }
 
-export const DeleteSendBoxEmail = (id,currentLoggedEmail) => {
-  let cleanCurrentLoggedEmail = currentLoggedEmail.split(".").join("")
-  return async() => {
-    try{
-      const response = await axios.delete(`${baseUrl}author/${cleanCurrentLoggedEmail}/${id}.json`)
+// export const DeleteSendBoxEmail = (id,currentLoggedEmail) => {
+//   let cleanCurrentLoggedEmail = currentLoggedEmail.split(".").join("")
+//   return async(dispatch) => {
+//     try{
+//       const response = await axios.delete(`${baseUrl}author/${cleanCurrentLoggedEmail}/${id}.json`)
 
-      if(response === 200) {
-        console.log(response.data)
-      }
+//       if(response === 200) {
+//         console.log(response.data)
+//       }
       
             
-    }catch(err){
-      console.log(err)
-    }
-  }
-}
+//     }catch(err){
+//       console.log(err)
+//     }
+//   }
+// }
 
    

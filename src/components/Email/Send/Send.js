@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector,useDispatch } from 'react-redux'
 import { fetchAuthor } from '../../../Redux-Store/email-actions'
 import SendItems from './SendItems'
+import useFetch from '../../../hooks/useFetch'
 const Send = () => {
   const dispatch = useDispatch()
   const authorData = useSelector(state => state.email.emailContent)
@@ -9,10 +10,10 @@ const Send = () => {
   const cleanLoggedInEmail = currentLoggedEmail.split(".").join("")
   console.log('authorData from send',authorData)
 
-  useEffect(() => {
-    dispatch(fetchAuthor(cleanLoggedInEmail))
-    console.log("fetch author from the send.js")
-  },[])
+
+
+  const author = 'author'
+  useFetch(cleanLoggedInEmail,author)
 
   return (
     <div>
