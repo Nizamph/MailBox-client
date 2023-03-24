@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector,useDispatch } from 'react-redux'
-import { Outlet } from 'react-router-dom'
-import { fetchRecipient } from '../../../Redux-Store/email-actions'
-import useFetch from '../../../hooks/useFetch'
+import useFetch from '../../../../hooks/useFetch'
 import InboxItems from './InboxItems'
 const Inbox = () => {
   const dispatch = useDispatch()
@@ -16,7 +14,6 @@ const Inbox = () => {
     
   return (
     <div>
-      <h3 style={{textAlign:"center"}}>Recieved Emails</h3>
       {
         recipientData?.map((item) => (
           <InboxItems

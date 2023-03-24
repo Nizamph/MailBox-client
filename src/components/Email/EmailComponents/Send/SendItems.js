@@ -1,10 +1,10 @@
 import React from 'react'
 import { Container,Col,Row } from 'react-bootstrap'
-import styles from '../EmailItems.module.css'
+import styles from '../../EmailItems.module.css'
 import { Link } from 'react-router-dom'
 import { useSelector,useDispatch } from 'react-redux'
-import { DeleteEmail, fetchAuthor, updateRead } from '../../../Redux-Store/email-actions'
-import { emailActions } from '../../../Redux-Store/email-slice'
+import { DeleteEmail, updateRead } from '../../../../Redux-Store/email-actions'
+import { emailActions } from '../../../../Redux-Store/email-slice'
 
 const SendItems = (props) => {
 

@@ -49,7 +49,7 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
 
     return (
      <div className="sidebar-container">
-      <SideNav expanded={isVisible} onToggle={handleToggle} style={{marginTop:"53px"}}>
+      <SideNav expanded={isVisible} onToggle={handleToggle} style={{marginTop:"53px",height:"100%"}}>
         <SideNav.Toggle
           onClick={() => {
            setIsVisible(!isVisible)

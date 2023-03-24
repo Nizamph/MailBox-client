@@ -1,13 +1,13 @@
 import React from 'react'
-import styles from '../EmailItems.module.css'
+import styles from '../../EmailItems.module.css'
 import { Container } from 'react-bootstrap'
 import { Link, Outlet } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
-import { emailActions } from '../../../Redux-Store/email-slice'
+import { emailActions } from '../../../../Redux-Store/email-slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Navigate } from 'react-router-dom'
-import { DeleteEmail, updateRead } from '../../../Redux-Store/email-actions'
+import { DeleteEmail, updateRead } from '../../../../Redux-Store/email-actions'
 const InboxItems = (props) => {
   const dispatch = useDispatch()
   const recipientData = useSelector(state => state.email.recipientData)

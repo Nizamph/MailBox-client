@@ -2,15 +2,14 @@ import React, { useState,useRef,useEffect } from "react";
 import { EditorState, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import "./EmailTextEditor.css";
+import "./Compose.css";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { emailActions } from "../../../Redux-Store/email-slice";
 import { useSelector} from "react-redux";
-import Notification from "../../UI/Notification";
-import { sendEmail } from "../../../Redux-Store/email-actions";
+import Notification from "../../../UI/Notification";
+import { sendEmail } from "../../../../Redux-Store/email-actions";
 
-const EmailTextEditor = () => {
+const Compose = () => {
   const showStatus = useSelector(state => state.ui.showStatus)
   const statusMessage = useSelector(state => state.ui.statusMessage)
   // const authorEmail = useSelector(state => state.email.authorEmail)
@@ -64,7 +63,6 @@ const EmailTextEditor = () => {
     <React.Fragment>
     <div className="email-composer">
     <Form className="email-container" onSubmit={formSubmitHandler}>
-    <h4 style={{color:"rgb(233, 49, 79)",backgroundColor:"transparent",marginLeft:"3rem"}}>Compose Your Mail...</h4>
     <div className="email-text-editor-container">
       <div className="email-text-editor-field">
         <label htmlFor="to">To:</label>
@@ -98,7 +96,7 @@ const EmailTextEditor = () => {
   );
 };
 
-export default EmailTextEditor;
+export default Compose;
 
 
 

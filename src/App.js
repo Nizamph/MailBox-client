@@ -4,14 +4,14 @@ import { Route,Routes,Navigate } from 'react-router-dom'
 import Login from './components/authentication/Login';
 import HomePage from './components/Pages/HomePage';
 import { useSelector,useDispatch } from 'react-redux';
-import Inbox from './components/Email/Inbox/Inbox';
-import Send from './components/Email/Send/Send';
 import ErrorModal from './components/UI/ErrorModal';
 import {useEffect} from 'react'
-import EmailTextEditor from './components/Email/Email-components/EmailTextEditor';
-import InboxDetails from './components/Email/Inbox/InboxDetails';
-import SendDetails from './components/Email/Send/SendDetails';
+import InboxDetails from './components/Email/EmailComponents/Inbox/InboxDetails';
+import SendDetails from './components/Email/EmailComponents/Send/SendDetails';
 import useFetch from './hooks/useFetch';
+import InboxPage from './components/Pages/InboxPage';
+import ComposePage from './components/Pages/ComposePage';
+import SendPage from './components/Pages/SendPage';
 function App() {
   const emailContent = useSelector(state => state.email.emailContent)
   const dispatch = useDispatch()
@@ -56,11 +56,11 @@ function App() {
      {showErrorModal && <ErrorModal message={showErrorModal.errorMessage} />}
     <Routes>
       <Route path='/Home' element={<HomePage/>}>
-       {isLoggedIn && <Route path='compose' element={<EmailTextEditor/>}/>}
+       {isLoggedIn && <Route path='compose' element={<ComposePage/>}/>}
        {!isLoggedIn && <Route path='compose' element={<Navigate replace to="/Login"/>}/>}
-       {isLoggedIn &&  <Route path='inbox' element={<Inbox/>}/>}
+       {isLoggedIn &&  <Route path='inbox' element={<InboxPage/>}/>}
        {!isLoggedIn &&  <Route path='inbox' element={<Navigate replace to="/Login"/>}/>}
-       {isLoggedIn && <Route path='send' element={<Send/>}/>}
+       {isLoggedIn && <Route path='send' element={<SendPage/>}/>}
        {!isLoggedIn && <Route path='send' element={<Navigate replace to="/Login"/>}/>}
       </Route>
       {!isLoggedIn && <Route path='/signUp' element={<SignUp/>}/>}

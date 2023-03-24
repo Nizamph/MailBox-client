@@ -1,8 +1,7 @@
 import React, { useEffect,useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector,useDispatch } from 'react-redux'
-import { fetchAuthor } from '../../../Redux-Store/email-actions'
-import Sidebar from '../../Sidebar'
+import Sidebar from '../../../Sidebar'
 import { Container } from 'react-bootstrap'
 const SendDetails = () => {
   const { dataId } = useParams()

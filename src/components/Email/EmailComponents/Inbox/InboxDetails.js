@@ -3,9 +3,8 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useState } from 'react'
-import Sidebar from '../../Sidebar'
+import Sidebar from '../../../Sidebar'
 import { useDispatch } from 'react-redux'
-import { fetchRecipient } from '../../../Redux-Store/email-actions'
 import { Container } from 'react-bootstrap'
 const InboxDetails = () => {
   const { dataId } = useParams()
@@ -54,4 +53,4 @@ const InboxDetails = () => {
   )
 }
 
-export default InboxDetails
+export default InboxDetails;
