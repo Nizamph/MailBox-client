@@ -64,7 +64,7 @@ const SendItems = (props) => {
           </div>
           <div>
           <Link to={`/sendDetails/${props.id}`} className="d-flex">  
-        <p style={{marginLeft:"9rem",marginRight:"9rem",marginTop:"10px"}}>From: <br/>{props.emailTo}</p>
+        <p style={{marginLeft:"9rem",marginRight:"9rem",marginTop:"10px"}}>To: <br/>{props.emailTo}</p>
         <p style={{marginLeft:"9rem",marginRight:"9rem",marginTop:"10px"}}>Subject: <br/>{props.subject}</p>
         </Link> 
           </div>

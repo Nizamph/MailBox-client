@@ -42,8 +42,9 @@ function App() {
   //   // }, 2000);
   //   // return () => clearInterval(interval);
   // }, []);
+    useFetch(authorEmail,author)
 
-  useFetch(authorEmail,author)
+
   
 
 //  useEffect(() => {

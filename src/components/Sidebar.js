@@ -12,6 +12,7 @@ import SideNav, {
   NavText
 } from "@trendmicro/react-sidenav";
 import { isVisible } from "@testing-library/user-event/dist/utils";
+import { compose } from "@reduxjs/toolkit";
 
 
  
@@ -25,9 +26,10 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
     const handleToggle = () => {
       setIsVisible(!isVisible);
     };
+
     useEffect(() => {
       setActiveLink(location.pathname);
-    }, [location.pathname]);
+    },[location.pathname]);
 
 
         
@@ -35,6 +37,7 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
       console.log('recipient data from sidebar',recipientData)
       let totalUnread = 0
     
+      
         recipientData.forEach((item) => {
           if(item.blue === true) {
             totalUnread =  totalUnread + 1
@@ -46,7 +49,7 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
   
 
       console.log('this is total unread',totalUnread)
-
+      console.log('this is currently active',activeLink)
     return (
      <div className="sidebar-container">
       <SideNav expanded={isVisible} onToggle={handleToggle} style={{marginTop:"53px",height:"100%"}}>
@@ -58,7 +61,7 @@ import { isVisible } from "@testing-library/user-event/dist/utils";
         <SideNav.Nav  defaultSelected={activeLink === '/Home/compose'?'compose': 
                                        activeLink === '/Home/inbox'?'inbox':
                                        activeLink === '/Home/send'?'send':
-                                       null
+                                       'home'
                                                      }>
 
           <NavItem  eventKey="compose" >

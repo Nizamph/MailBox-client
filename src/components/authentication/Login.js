@@ -12,7 +12,7 @@ const Login = () => {
   const navigate = useNavigate()
 
   const moveToSignUpHandler = () => {
-     navigate("/")
+     navigate("/signUp")
   }
 
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)

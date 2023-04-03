@@ -7,7 +7,6 @@ const useFetch = (authorEmail,userType) => {
    const dispatch = useDispatch()
    useEffect(() => {
     const fetchAllMails = async() => {
-      console.log('author email from recipient',authorEmail)
       console.log("fecthing recipient from email action")
       const response = await axios.get(`https://mailbox-client-51299-default-rtdb.firebaseio.com/${userType}/${authorEmail}.json`)
       // console.log(authorEmail)
@@ -49,7 +48,7 @@ const useFetch = (authorEmail,userType) => {
     console.log(error)
     console.log('error from the fetching emails')
   }
-   },[])   
+   },[authorEmail,userType])   
   return null
 }
 
