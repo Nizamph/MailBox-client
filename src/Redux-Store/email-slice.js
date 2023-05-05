@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { act } from "@testing-library/react";
+
 
 const emailSlice = createSlice({
   name:"email",
@@ -12,12 +12,7 @@ const emailSlice = createSlice({
     },
     recipientData:(state,action) => {
       state.recipientData = action.payload
-
       console.log('recipient data from email-slice',state.recipientData)
-    },
-    readStatus:(state,action) => {
-      state.recipientData = action.payload.blue
-      console.log('after updating blue',state.recipientData)
     },
     totalUnread:(state,action) => {
       state.totalUnreadEmails = action.payload

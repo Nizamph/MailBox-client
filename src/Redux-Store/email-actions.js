@@ -147,7 +147,7 @@ export const updateRead = (authorEmail,content,id,currentLoggedEmail,requestTo) 
       recipientEmail: cleanCurrentLoggedEmail,
       authorEmail: authorEmail,
      })
-     console.log(response.data)
+     console.log('from updation',response.data)
 
 
     }catch(err) {

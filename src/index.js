@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom'
-import store from './Redux-Store';
+import store from './Redux-Store/Store';
 import { Provider } from 'react-redux';
 /*
   React Bootstrap configuration
