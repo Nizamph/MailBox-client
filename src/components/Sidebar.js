@@ -3,7 +3,8 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import './Sidebar.css';
 import { NavLink } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import SideNav, {
   Toggle,
   Nav,
@@ -13,13 +14,17 @@ import SideNav, {
 } from '@trendmicro/react-sidenav';
 import { isVisible } from '@testing-library/user-event/dist/utils';
 import { compose } from '@reduxjs/toolkit';
+import { uiActions } from '../Redux-Store/ui-slice';
 
 const Sidebar = () => {
-  const [isVisible, setIsVisible] = useState(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const menuToggle = useSelector((store) => store.ui.menuBar);
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const handleToggle = () => {
-    setIsVisible(!isVisible);
+    dispatch(uiActions.toggleMenuBar());
+    console.log('handle toggle function called');
   };
 
   useEffect(() => {
@@ -27,7 +32,7 @@ const Sidebar = () => {
   }, [location.pathname]);
 
   let recipientData = useSelector((state) => state.email.recipientData);
-  console.log('recipient data from sidebar', recipientData);
+
   let totalUnread = 0;
 
   recipientData.forEach((item) => {
@@ -35,20 +40,18 @@ const Sidebar = () => {
       totalUnread = totalUnread + 1;
     }
   });
+  const navigateHandler = (path) => {
+    navigate(`/Home/${path}`);
+  };
 
-  console.log('this is total unread', totalUnread);
-  console.log('this is currently active', activeLink);
+  console.log('menuToggle is here', menuToggle);
   return (
     <div className='sidebar-container'>
       <SideNav
-        expanded={isVisible}
+        expanded={menuToggle}
         onToggle={handleToggle}
         style={{ marginTop: '53px', height: '100%' }}>
-        <SideNav.Toggle
-          onClick={() => {
-            setIsVisible(!isVisible);
-          }}
-        />
+        <SideNav.Toggle />
         <SideNav.Nav
           defaultSelected={
             activeLink === '/Home/compose'
@@ -59,11 +62,11 @@ const Sidebar = () => {
               ? 'send'
               : 'home'
           }>
-          <NavItem eventKey='compose'>
+          <NavItem
+            eventKey='compose'
+            onClick={() => navigateHandler('compose')}>
             <NavIcon>
-              <NavLink
-                to='/Home/compose'
-                activeclassname='active'>
+              <NavLink activeclassname='active'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   width='19'
@@ -76,19 +79,15 @@ const Sidebar = () => {
               </NavLink>
             </NavIcon>
             <NavText>
-              <NavLink
-                to='/Home/compose'
-                style={{ textDecoration: 'none' }}>
-                Compose
-              </NavLink>
+              <NavLink style={{ textDecoration: 'none' }}>Compose</NavLink>
             </NavText>
           </NavItem>
 
-          <NavItem eventKey='inbox'>
+          <NavItem
+            eventKey='inbox'
+            onClick={() => navigateHandler('inbox')}>
             <NavIcon>
-              <NavLink
-                to='/Home/inbox'
-                activeclassname='active'>
+              <NavLink activeclassname='active'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   width='19'
@@ -101,19 +100,17 @@ const Sidebar = () => {
               </NavLink>
             </NavIcon>
             <NavText>
-              <NavLink
-                to='/Home/inbox'
-                style={{ textDecoration: 'none' }}>
+              <NavLink style={{ textDecoration: 'none' }}>
                 Inbox [Unread{totalUnread}]
               </NavLink>
             </NavText>
           </NavItem>
 
-          <NavItem eventKey='send'>
+          <NavItem
+            eventKey='send'
+            onClick={() => navigateHandler('send')}>
             <NavIcon>
-              <NavLink
-                to='/Home/send'
-                activeclassname='active'>
+              <NavLink activeclassname='active'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   width='19'

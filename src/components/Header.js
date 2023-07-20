@@ -44,12 +44,7 @@ function Header() {
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls='basic-navbar-nav'
-          className='custom-toggler '
-          style={{
-            color: 'rgb(246, 28, 64)',
-            backgroundColor: 'rgb(246, 28, 64)',
-            marginLeft: '400px',
-          }}
+          className={styles.navToggler}
         />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-auto ms-3'>

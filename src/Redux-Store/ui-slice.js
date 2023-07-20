@@ -7,6 +7,7 @@ const uiSlice = createSlice({
     errorMessage: null,
     showStatus: false,
     statusMessage: null,
+    menuBar: false,
   },
   reducers: {
     showToggle: (state) => {
@@ -24,6 +25,14 @@ const uiSlice = createSlice({
     statusMessage: (state, action) => {
       state.statusMessage = action.payload.statusMessage;
       console.log('status message is here ', state.statusMessage);
+    },
+    showMenuBar: (state, action) => {
+      state.menuBar = action.payload;
+    },
+    toggleMenuBar: (state) => {
+      console.log('toggle menubar calling from slice');
+      state.menuBar = !state.menuBar;
+      console.log('current state of menubar from slice', state.menuBar);
     },
   },
 });
