@@ -68,13 +68,28 @@
   img {
     height: 130vh;
   }
+}
+
+@media (max-width: 900px) {
   .background {
     background-color: transparent;
     width: 50%;
     margin: auto;
-    padding-top: 13rem;
+    padding-top: 9rem;
     position: absolute;
     top: 10px;
     left: 150px;
+  }
+}
+
+@media (max-width: 700px) {
+  .background {
+    background-color: transparent;
+    width: 50%;
+    margin: auto;
+    padding-top: 8rem;
+    position: absolute;
+    top: 10px;
+    left: 110px;
   }
 }

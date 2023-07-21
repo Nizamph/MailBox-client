@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Sidebar from '../../../Sidebar';
 import { useDispatch } from 'react-redux';
 import { Container } from 'react-bootstrap';
+import { uiActions } from '../../../../Redux-Store/ui-slice';
 const InboxDetails = () => {
   const { dataId } = useParams();
   const dispatch = useDispatch();
