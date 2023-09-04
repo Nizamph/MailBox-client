@@ -19,6 +19,9 @@ const emailSlice = createSlice({
       state.recipientData = action.payload;
       console.log('recipient data from email-slice', state.recipientData);
     },
+    addRecipientEmail: (state, action) => {
+      state.recepientEmail = action.payload;
+    },
     // totalUnread:(state,action) => {
     //   state.totalUnreadEmails = action.payload
     // }

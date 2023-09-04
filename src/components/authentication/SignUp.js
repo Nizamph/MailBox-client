@@ -56,6 +56,8 @@ function SignUp() {
               if (res && res.error && res.error.message) {
                 errorMessage = res.error.message;
                 console.log(errorMessage);
+                dispatch(uiActions.errorMessage({ message: errorMessage }));
+                dispatch(uiActions.showToggle(true));
               }
               throw new Error(errorMessage);
             });
@@ -67,11 +69,12 @@ function SignUp() {
         })
         .catch((err) => {
           console.log(errorMessage);
+          console.log('catch block is working');
+          dispatch(uiActions.showToggle(true));
           dispatch(uiActions.errorMessage({ message: err.message }));
-          dispatch(uiActions.onShow());
         });
     } else {
-      dispatch(uiActions.onShow());
+      dispatch(uiActions.showToggle(true));
       dispatch(
         uiActions.errorMessage({
           message: 'Entered Passwords are not matching',

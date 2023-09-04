@@ -10,8 +10,9 @@ const uiSlice = createSlice({
     menuBar: false,
   },
   reducers: {
-    showToggle: (state) => {
-      state.show = !state.show;
+    showToggle: (state, action) => {
+      state.show = action.payload;
+      console.log('show toggle from slice');
     },
     errorMessage: (state, action) => {
       const errorMessage = action.payload.message;

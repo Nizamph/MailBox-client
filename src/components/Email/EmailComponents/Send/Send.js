@@ -14,7 +14,7 @@ const Send = () => {
   }, []);
   const author = 'author';
   useFetch(cleanLoggedInEmail, author);
-
+  console.log('author data is here', authorData);
   return (
     <div>
       {authorData?.map((item) => (

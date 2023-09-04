@@ -115,7 +115,7 @@ export const sendEmail = (emailContent, recipientEmail, currentUserEmail) => {
       }, 2000);
     } catch (error) {
       console.log(error);
-      dispatch(uiActions.showToggle());
+      dispatch(uiActions.showToggle(true));
       dispatch(uiActions.statusNotificationToggle());
       dispatch(
         uiActions.errorMessage({
@@ -131,7 +131,8 @@ export const updateRead = (
   content,
   id,
   currentLoggedEmail,
-  requestTo
+  requestTo,
+  recepientEmail
 ) => {
   let cleanCurrentLoggedEmail = currentLoggedEmail.split('.').join('');
   console.log(cleanCurrentLoggedEmail);
@@ -142,7 +143,7 @@ export const updateRead = (
         `${baseUrl}${requestTo}/${cleanCurrentLoggedEmail}/${id}.json`,
         {
           emailContent: content,
-          recipientEmail: cleanCurrentLoggedEmail,
+          recipientEmail: recepientEmail,
           authorEmail: authorEmail,
         }
       );
@@ -167,7 +168,7 @@ export const DeleteEmail = (id, currentLoggedEmail, userType) => {
       await DeleteSelectedMail();
     } catch (err) {
       console.log(err);
-      dispatch(uiActions.showToggle());
+      dispatch(uiActions.showToggle(true));
       dispatch(uiActions.statusNotificationToggle());
       dispatch(
         uiActions.errorMessage({

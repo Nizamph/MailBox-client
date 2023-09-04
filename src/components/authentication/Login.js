@@ -50,6 +50,9 @@ const Login = () => {
             if (response && response.error && response.error.message) {
               errorMessage = response.error.message;
             }
+            dispatch(uiActions.errorMessage({ message: errorMessage }));
+            dispatch(uiActions.showToggle(true));
+
             throw new Error(errorMessage);
           });
         }
@@ -62,7 +65,7 @@ const Login = () => {
         navigate('/Home/compose', { replace: true });
       })
       .catch((err) => {
-        dispatch(uiActions.showToggle());
+        dispatch(uiActions.showToggle(true));
         dispatch(uiActions.errorMessage({ message: err.message }));
       });
   };

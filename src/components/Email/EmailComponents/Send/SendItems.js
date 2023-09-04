@@ -10,6 +10,7 @@ const SendItems = (props) => {
   const sendBoxItems = useSelector((state) => state.email.emailContent);
   const currentLoggedEmail = useSelector((state) => state.auth.authorEmail);
   const cleanLoggedInEmail = currentLoggedEmail.split('.').join('');
+  const recepientEmail = useSelector((store) => store.email.recepientEmail);
   const dispatch = useDispatch();
   console.log('items from send box', sendBoxItems);
 
@@ -31,7 +32,8 @@ const SendItems = (props) => {
             emailContent,
             item.id,
             currentLoggedEmail,
-            author
+            author,
+            recepientEmail
           )
         );
         return { ...item, blue: false };
